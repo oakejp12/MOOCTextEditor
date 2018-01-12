@@ -67,33 +67,30 @@ public class DocumentBenchmarking {
 			// 2.
 			String record = getStringFromFile(textfile, numToCheck);
 
-			// Time tracking vars
-            long startTime;
-            long endTime;
-            long elapsedTime;
-            double time;
+			long startTime = System.nanoTime();
+			for (int i = 0; i < trials; i++){
+				BasicDocument basicDocument = new BasicDocument(record);
+				basicDocument.getFleschScore();
+			}
+			long endTime = System.nanoTime();
 
-            for (int i = 0; i < trials; i++){
+			long elapsedTime = endTime - startTime;
+			double time = (double)elapsedTime / 1000000000.0;
+			System.out.print(time + "\t");
 
-                startTime = System.nanoTime();
-                BasicDocument basicDocument = new BasicDocument(record);
-                basicDocument.getFleschScore();
-                endTime = System.nanoTime();
+			startTime = System.nanoTime();
+			for (int i = 0; i < trials; i++) {
+				EfficientDocument document = new EfficientDocument(record);
+				document.getFleschScore();
+			}
+			endTime = System.nanoTime();
 
-                elapsedTime = endTime - startTime;
-                time = (double)elapsedTime / 1000000000.0;
-                System.out.print(time + "\t");
+			elapsedTime = endTime - startTime;
+			time = (double) elapsedTime /  1000000000.0;
+			System.out.print(time + "\n");
 
-                startTime = System.nanoTime();
-                EfficientDocument document = new EfficientDocument(record);
-                document.getFleschScore();
-                endTime = System.nanoTime();
-
-                elapsedTime = endTime - startTime;
-                time = (double) elapsedTime /  1000000000.0;
-                System.out.print(time + "\n");
-            }
 		}
+
 	}
 	
 	/** Get a specified number of characters from a text file
