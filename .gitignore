@@ -4,5 +4,6 @@
 *.settings
 MOOCTextEditor.iml
 
-# Build product
+# Build products
 out/
+grader_output/
