@@ -2,3 +2,6 @@
 *.idea
 *.metadata
 *.settings
+
+# Build product
+out/
