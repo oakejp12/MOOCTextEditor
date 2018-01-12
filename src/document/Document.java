@@ -147,9 +147,6 @@ public abstract class Document {
 	
 	/** Return the Flesch readability score of this document */
 	public double getFleschScore() {
-	    // You will play with this method in week 1, and
-		// then implement it in week 2
-
         // NOTE: Widening primitive conversions do not lose information
         // about the overall magnitude of a numeric value.
 
