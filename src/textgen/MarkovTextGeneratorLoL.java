@@ -62,9 +62,14 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
             } else {
                 System.err.println("ERROR: Captured a non-word: " + token);
             }
-
             wordIndex++;
         }
+
+        // Retrieve last word and set its next word to the starter word
+        String lastWord = tokens.get(tokens.size() - 1);
+        int indexOfWord = getWordIndex(lastWord);
+        ListNode lastWordNode = wordList.get(indexOfWord);
+        lastWordNode.addNextWord(starter);
     }
 
     /**
@@ -152,7 +157,7 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
     private List<String> getTokens(String sourceText)
     {
         ArrayList<String> tokens = new ArrayList<>();
-        Pattern tokSplitter = Pattern.compile("[a-zA-Z]+");
+        Pattern tokSplitter = Pattern.compile("[a-zA-Z']+");
         Matcher m = tokSplitter.matcher(sourceText);
 
         while (m.find()) {
