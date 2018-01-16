@@ -59,14 +59,14 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
 	/** Get the element at position index 
 	 * @throws IndexOutOfBoundsException if the index is out of bounds. */
-	public E get(int index) throws IndexOutOfBoundsException
-	{
+	public E get(int index) throws IndexOutOfBoundsException {
 		if (index > this.size || index < 0 || this.size == 0)
 			throw new IndexOutOfBoundsException("ERROR: Can't access element on that index.");
 
-		LLNode<E> current = this.head;
+		// Since we are working with sentinel node, start at the first actual data element
+		LLNode<E> current = this.head.next;
 
-		while (current.next != tail) {
+		while (current != tail) {
 			if (current.index == index) {
 				return current.data;
 			}
