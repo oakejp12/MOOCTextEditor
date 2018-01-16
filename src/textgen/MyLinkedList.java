@@ -132,7 +132,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 * 
 	 */
 	public E remove(int index) {
-		if (index < 0 || index > size)
+		if (index < 0 || index >= size)
 			throw new IndexOutOfBoundsException("ERROR: Unable to access element from index " + index);
 
 		LLNode<E> current = this.head;
