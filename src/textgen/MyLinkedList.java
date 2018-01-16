@@ -136,17 +136,20 @@ public class MyLinkedList<E> extends AbstractList<E> {
 			throw new IndexOutOfBoundsException("ERROR: Unable to access element from index " + index);
 
 		LLNode<E> current = this.head;
+        LLNode<E> next;
+		LLNode<E> nextToNext;
 
 		E data = null;
 
 		boolean removed = false;
 
-		while (current.next != null) {
-			LLNode<E> next = current.next;
-			if (next.index == index) {
-				LLNode<E> nextToNext = next.next;
+		while (current.next != tail) {
 
-				nextToNext.prev	= current; // WARNING: THIS MAY BE CAUSING NULL POINTER
+		    next = current.next;
+			if (next.index == index) {
+				nextToNext = next.next;
+
+				nextToNext.prev	= current;
 				current.next 	= nextToNext;
 
 				next.next = null;
@@ -161,8 +164,9 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
 			current = current.next;
 
+			// Decrease the index for each element after the removed node.
 			if (removed) {
-				next.index--;
+				current.index--;
 			}
 		}
 
