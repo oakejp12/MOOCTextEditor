@@ -22,6 +22,22 @@ public class MyLinkedListTester {
 	private MyLinkedList<Integer> longerList;
 	private MyLinkedList<Integer> list1;
 
+    private String printListForwards(MyLinkedList<String> lst) {
+        LLNode<String> curr;
+        String ret = "";
+        if (lst.head.data == null)
+            curr = lst.head.next;
+        else
+            curr = lst.head;
+
+        while (curr != null && curr.data != null) {
+            ret += curr.data;
+            curr = curr.next;
+        }
+
+        return ret;
+    }
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -62,7 +78,7 @@ public class MyLinkedListTester {
 		}
 
 		// Test short list, first contents, then out of bounds
-
+        System.out.println(printListForwards(shortList));
 		assertEquals("Check first", "A", shortList.get(0));
 		assertEquals("Check second", "B", shortList.get(1));
 
