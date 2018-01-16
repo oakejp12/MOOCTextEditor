@@ -6,11 +6,13 @@ package textgen;
 import static org.junit.Assert.*;
 
 
+import com.sun.istack.internal.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author UC San Diego MOOC team
+ * @author Johan Oakes
  *
  */
 public class MyLinkedListTester {
@@ -21,22 +23,6 @@ public class MyLinkedListTester {
 	private MyLinkedList<Integer> emptyList;
 	private MyLinkedList<Integer> longerList;
 	private MyLinkedList<Integer> list1;
-
-    private String printListForwards(MyLinkedList<String> lst) {
-        LLNode<String> curr;
-        String ret = "";
-        if (lst.head.data == null)
-            curr = lst.head.next;
-        else
-            curr = lst.head;
-
-        while (curr != null && curr.data != null) {
-            ret += curr.data;
-            curr = curr.next;
-        }
-
-        return ret;
-    }
 
 	/**
 	 * @throws java.lang.Exception
@@ -78,7 +64,6 @@ public class MyLinkedListTester {
 		}
 
 		// Test short list, first contents, then out of bounds
-        System.out.println(printListForwards(shortList));
 		assertEquals("Check first", "A", shortList.get(0));
 		assertEquals("Check second", "B", shortList.get(1));
 
@@ -96,12 +81,12 @@ public class MyLinkedListTester {
 
 		}
 
-		// test longer list contents
-		for (int i = 0; i<LONG_LIST_LENGTH; i++ ) {
+		// Test longer list contents
+		for (int i = 0; i < LONG_LIST_LENGTH; i++ ) {
 			assertEquals("Check " + i + " element", (Integer)i, longerList.get(i));
 		}
 
-		// test off the end of the longer array
+		// Test off the end of the longer array
 		try {
 			longerList.get(-1);
 			fail("Check out of bounds");
@@ -125,12 +110,41 @@ public class MyLinkedListTester {
      */
 	@Test
 	public void testRemove() {
-		int a = list1.remove(0);
-		assertEquals("Remove: check a is correct ", 65, a);
-		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
+
+        int a = list1.remove(0);
+        assertEquals("Remove: check a is correct ", 65, a);
+		assertEquals("Remove: check element 0 is correct ", (Integer) 21, list1.get(0));
 		assertEquals("Remove: check size is correct ", 2, list1.size());
 
-		// TODO: Add more tests here
+        String b = shortList.remove(0);
+        assertEquals("Remove: check b is correct ", "A", b);
+        assertEquals("Remove: check element 0 is correct ", "B", shortList.get(0));
+        assertEquals("Remove: check size is correct ", 1, shortList.size());
+
+        try {
+            list1.remove(-1);
+            fail("Check out of bounds");
+        } catch (IndexOutOfBoundsException ex) {
+
+        }
+
+        try {
+            list1.remove(3);
+            fail("Check out of bounds");
+        } catch (IndexOutOfBoundsException ex) {
+
+        }
+
+        int d = longerList.remove(1);
+        assertEquals("Remove: check d is correct ", 1, d);
+        assertEquals("Remove: check element 1 is correct ", (Integer) 2, longerList.get(1));
+
+        try {
+            emptyList.remove(0);
+            fail("Check empty list");
+        } catch (IndexOutOfBoundsException ex) {
+
+        }
 	}
 
 	/**
@@ -139,8 +153,14 @@ public class MyLinkedListTester {
 	 */
 	@Test
 	public void testAddEnd() {
-        // TODO: implement this test
+        boolean added = shortList.add("C");
+        assertEquals("Add: check a is correct ", "C", shortList.get(shortList.size() - 1));
+        assertEquals("Add: check a returns true", Boolean.TRUE, added);
+        assertEquals("Add: check b is the second element", "B", shortList.get(1));
 
+	    added = emptyList.add(1);
+	    assertEquals("Add: check empty list was added to ", (Integer) 1, emptyList.get(0));
+	    assertEquals("Add: check added returns true ", Boolean.TRUE, added);
 	}
 
 
@@ -171,6 +191,13 @@ public class MyLinkedListTester {
 	public void testSet() {
 	    // TODO: implement this test
 
+        String a = shortList.set(0, "Z");
+        assertEquals("Set: check element was inserted ", "Z", shortList.get(0));
+        assertEquals("Set: check a is correct ", "Z", a);
+        assertEquals("Set: check size ", 2, shortList.size());
+
+        int b = longerList.set(3, 15);
+        assertEquals("Set: check element was inserted ", (Integer) 15, longerList.get(3));
 	}
 
 
