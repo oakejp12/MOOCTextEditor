@@ -19,6 +19,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 
     public AutoCompleteDictionaryTrie() {
 		root = new TrieNode();
+		size = 0;
 	}
 	
 	
@@ -37,6 +38,29 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 * in the dictionary.
 	 */
 	public boolean addWord(String word) {
+        word = word.toLowerCase();
+
+        // Don't add the word if it's already there
+        if (isWord(word)) return false;
+
+        TrieNode curr = root;
+
+        for (int i = 0; i < word.length(); i++) {
+            Character character = word.charAt(i);
+
+            if (!((curr.getValidNextCharacters()).contains(character))) {
+                curr.insert(character);
+            }
+
+            if (i == word.length() - 1) {
+                curr = curr.getChild(character);
+                curr.setEndsWord(true);
+                size++;
+                return true;
+            }
+
+            curr = curr.getChild(character);
+        }
 
 
 	    return false;
@@ -47,8 +71,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 * as the number of TrieNodes in the trie.
 	 */
 	public int size() {
-	    //TODO: Implement this method
-	    return 0;
+	    return size;
 	}
 	
 	
@@ -56,7 +79,30 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 * described in the videos for this week. */
 	@Override
 	public boolean isWord(String s) {
-	    // TODO: Implement this method
+	    s = s.toLowerCase();
+
+        // No words have been added
+        if (size < 1) return false;
+
+        // Since root node is the empty string, start at it's first child
+        // that corresponds to the first character of the provided argument
+        TrieNode curr = root;
+
+	    for (int i = 0; i < s.length(); i++) {
+            Character character = s.charAt(i);
+
+            // If the next character to inspect isn't in the set of next valid characters
+            // the word doesn't exist...
+            if (!(curr.getValidNextCharacters()).contains(character)) {
+                return false;
+            }
+
+            curr = curr.getChild(character);
+
+            if (curr.endsWord() && curr.getText().equalsIgnoreCase(s))
+                return true;
+        }
+
 		return false;
 	}
 
@@ -106,7 +152,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
  	}
  	
  	/** Do a pre-order traversal from this node down */
- 	public void printNode(TrieNode curr) {
+ 	private void printNode(TrieNode curr) {
  		if (curr == null) 
  			return;
  		
