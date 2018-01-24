@@ -17,8 +17,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
     private int size;
     
 
-    public AutoCompleteDictionaryTrie()
-	{
+    public AutoCompleteDictionaryTrie() {
 		root = new TrieNode();
 	}
 	
@@ -37,9 +36,9 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 * @return true if the word was successfully added or false if it already exists
 	 * in the dictionary.
 	 */
-	public boolean addWord(String word)
-	{
-	    //TODO: Implement this method.
+	public boolean addWord(String word) {
+
+
 	    return false;
 	}
 	
@@ -47,8 +46,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 * Return the number of words in the dictionary.  This is NOT necessarily the same
 	 * as the number of TrieNodes in the trie.
 	 */
-	public int size()
-	{
+	public int size() {
 	    //TODO: Implement this method
 	    return 0;
 	}
@@ -57,8 +55,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	/** Returns whether the string is a word in the trie, using the algorithm
 	 * described in the videos for this week. */
 	@Override
-	public boolean isWord(String s) 
-	{
+	public boolean isWord(String s) {
 	    // TODO: Implement this method
 		return false;
 	}
@@ -84,8 +81,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
      * @param numCompletions The maximum number of predictions desired.
      * @return A list containing the up to numCompletions best predictions
      */@Override
-     public List<String> predictCompletions(String prefix, int numCompletions) 
-     {
+     public List<String> predictCompletions(String prefix, int numCompletions) {
     	 // TODO: Implement this method
     	 // This method should implement the following algorithm:
     	 // 1. Find the stem in the trie.  If the stem does not appear in the trie, return an
@@ -105,20 +101,18 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
      }
 
  	// For debugging
- 	public void printTree()
- 	{
+ 	public void printTree() {
  		printNode(root);
  	}
  	
  	/** Do a pre-order traversal from this node down */
- 	public void printNode(TrieNode curr)
- 	{
+ 	public void printNode(TrieNode curr) {
  		if (curr == null) 
  			return;
  		
  		System.out.println(curr.getText());
  		
- 		TrieNode next = null;
+ 		TrieNode next;
  		for (Character c : curr.getValidNextCharacters()) {
  			next = curr.getChild(c);
  			printNode(next);
