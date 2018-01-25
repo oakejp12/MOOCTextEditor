@@ -1,10 +1,6 @@
 package spelling;
 
-import java.util.List;
-import java.util.Set;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 /** 
  * An trie data structure that implements the Dictionary and the AutoComplete ADT
@@ -128,7 +124,6 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
      * @return A list containing the up to numCompletions best predictions
      */@Override
      public List<String> predictCompletions(String prefix, int numCompletions) {
-    	 // TODO: Implement this method
     	 // This method should implement the following algorithm:
     	 // 1. Find the stem in the trie.  If the stem does not appear in the trie, return an
     	 //    empty list
@@ -142,7 +137,58 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
     	 //       If it is a word, add it to the completions list
     	 //       Add all of its child nodes to the back of the queue
     	 // Return the list of completions
-    	 
+
+        List<String> completions = new ArrayList<>();
+
+        TrieNode root = getStem(prefix);
+
+        if (root != null) {
+            Queue<TrieNode> queue = new LinkedList<>();
+            queue.add(root);
+
+            while (!queue.isEmpty()) {
+                TrieNode curr = queue.remove();
+
+                if (curr.endsWord()) {
+                    completions.add(curr.getText());
+                }
+
+                for (Character c : curr.getValidNextCharacters()) queue.add(curr.getChild(c));
+            }
+        }
+
+        int endIndex = (numCompletions >= completions.size()) ? completions.size() : numCompletions;
+
+        return completions.subList(0, endIndex);
+     }
+
+    /**
+     * Find the stem in the trie relating to the provided prefix. This method is
+     * similar in implementation to isWord, but it returns the TrieNode associated
+     * with the stem provided which may not necessarily be an end word.
+     *
+     * @param prefix    stem to search for
+     * @return          TrieNode corresponding to the stem
+     */
+     private TrieNode getStem(String prefix) {
+         prefix = prefix.toLowerCase(); // Just in case, ya know...
+
+         if (prefix.isEmpty()) return this.root;
+
+         TrieNode curr = root;
+
+         for (int i = 0; i < prefix.length(); i++) {
+             Character character = prefix.charAt(i);
+
+             // If the next character to inspect isn't in the set of next valid characters
+             // the word doesn't exist...
+             if (!(curr.getValidNextCharacters()).contains(character)) return null;
+
+             curr = curr.getChild(character);
+
+             if (curr.getText().equalsIgnoreCase(prefix)) return curr;
+         }
+
          return null;
      }
 
